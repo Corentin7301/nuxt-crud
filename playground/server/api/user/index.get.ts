@@ -1,7 +1,10 @@
 import prisma from '~/lib/prisma'
+
 export default defineEventHandler(async (event) => {
-  
+  const userDatas = await prisma.user.findMany()
   return {
-    user: await prisma.user.findMany(),
+    ...userDatas,
   }
 })
+
+          
