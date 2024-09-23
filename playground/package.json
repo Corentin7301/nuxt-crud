@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "name": "my-module-playground",
+  "type": "module",
+  "scripts": {
+    "dev": "nuxi dev",
+    "build": "nuxi build",
+    "generate": "nuxi generate"
+  },
+  "dependencies": {
+    "@prisma/nuxt": "^0.0.35",
+    "nuxt": "^3.13.2"
+  },
+  "devDependencies": {
+    "@prisma/client": "^5.19.1"
+  }
+}
