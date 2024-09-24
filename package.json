@@ -1,8 +1,8 @@
 {
-  "name": "my-module",
+  "name": "nuxt-crud",
   "version": "1.0.0",
-  "description": "My new Nuxt module",
-  "repository": "your-org/my-module",
+  "description": "Nuxt module for generate CRUD based on Prisma ORM schema.",
+  "repository": "your-org/nuxt-crud",
   "license": "MIT",
   "type": "module",
   "exports": {

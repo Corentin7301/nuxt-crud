@@ -1,22 +1,25 @@
-import prisma from '~/lib/prisma'
+export function patchRouteTemplate(model: string): string {
+  const lowercaseModel = model.toLowerCase()
+  return `import prisma from '~/lib/prisma'
   
   export default defineEventHandler(async (event) => {
     const id = getRouterParam(event, 'id')
     const body = await readBody(event)
   
     try {
-      const updatedUser = await prisma.user.update({
+      const updated${model} = await prisma.${lowercaseModel}.update({
         where: { id: Number.parseInt(id) },
         data: body,
       })
       return {
         updated: true,
-        data: updatedUser,
+        data: updated${model},
       }
     }
     catch (error) {
-      console.error('User update error:', error)
+      console.error('${model} update error:', error)
       throw error
     }
   })
-  
+  `
+}

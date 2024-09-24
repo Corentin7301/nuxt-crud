@@ -1,10 +1,12 @@
-import prisma from '~/lib/prisma'
+export function deleteRouteTemplate(model: string): string {
+  const lowercaseModel = model.toLowerCase()
+  return `import prisma from '~/lib/prisma'
   
   export default defineEventHandler(async (event) => {
     const id = getRouterParam(event, 'id')
   
     try {
-      await prisma.user.delete({
+      await prisma.${lowercaseModel}.delete({
         where: { id: Number.parseInt(id) },
       })
       return {
@@ -12,8 +14,9 @@ import prisma from '~/lib/prisma'
       }
     }
     catch (error) {
-      console.error('User deletion error:', error)
+      console.error('${model} deletion error:', error)
       throw error
     }
   })
-  
+  `
+}
