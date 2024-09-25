@@ -1,5 +1,5 @@
-export function extractModelsFromSchema(schema: string): string[] {
-  const models: string[] = []
+export function extractModelsFromSchema(schema) {
+  const models = []
   const lines = schema.split('\n')
   let isInComment = false
 

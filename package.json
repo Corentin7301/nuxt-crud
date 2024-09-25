@@ -1,6 +1,6 @@
 {
   "name": "nuxt-crud",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Nuxt module for generate CRUD based on Prisma ORM schema.",
   "repository": "your-org/nuxt-crud",
   "license": "MIT",
@@ -41,6 +41,7 @@
     "changelogen": "^0.5.7",
     "eslint": "^9.11.0",
     "nuxt": "^3.13.0",
+    "plop": "^4.0.1",
     "typescript": "latest",
     "vitest": "^2.1.1",
     "vue-tsc": "^2.1.6"

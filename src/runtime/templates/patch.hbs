@@ -1,0 +1,21 @@
+import prisma from '~/lib/prisma'
+  
+  export default defineEventHandler(async (event) => {
+    const id = getRouterParam(event, 'id')
+    const body = await readBody(event)
+  
+    try {
+      const updated{{model}} = await prisma.{{lowercaseModel}}.update({
+        where: { id: Number.parseInt(id) },
+        data: body,
+      })
+      return {
+        updated: true,
+        data: updated{{model}},
+      }
+    }
+    catch (error) {
+      console.error('{{model}} update error:', error)
+      throw error
+    }
+  })

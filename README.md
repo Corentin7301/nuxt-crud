@@ -3,6 +3,9 @@
 1. Add nuxt prisma module
 2. create lib/prisma.ts
 
+## TODO
+- [ ] add command for run crud
+- [ ] add command for run crud for only one table (ex: user but not post)
 
 <!--
 Get your module up and running quickly.

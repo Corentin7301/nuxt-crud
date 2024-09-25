@@ -1,9 +1,5 @@
-import fs from 'node:fs'
-import path from 'node:path'
-import { defineNuxtModule, createResolver, addServerHandler } from '@nuxt/kit'
-import { extractModelsFromSchema } from './runtime/utils/schemaParser'
-import { watchSchema } from './runtime/utils/fileWatcher'
-import { generateCRUDRoutes } from './runtime/generators/crudRoutes'
+import { execSync } from 'node:child_process'
+import { defineNuxtModule, createResolver } from '@nuxt/kit'
 
 export default defineNuxtModule({
   meta: {
@@ -13,39 +9,27 @@ export default defineNuxtModule({
   setup(options, nuxt) {
     const resolver = createResolver(import.meta.url)
     const schemaPath = resolver.resolve(nuxt.options.rootDir, 'prisma/schema.prisma')
+    const apiPath = resolver.resolve(nuxt.options.rootDir, 'server/api')
 
     const generateCRUD = () => {
-      if (fs.existsSync(schemaPath)) {
-        const schema = fs.readFileSync(schemaPath, 'utf-8')
-        const models = extractModelsFromSchema(schema)
-
-        models.map((model) => {
-          const routes = generateCRUDRoutes(model)
-          routes.map((route) => {
-            const filePath = path.join(nuxt.options.serverDir, route.handler)
-            const dirPath = path.dirname(filePath)
-
-            if (!fs.existsSync(dirPath)) {
-              fs.mkdirSync(dirPath, { recursive: true })
-            }
-
-            fs.writeFileSync(filePath, route.content)
-
-            addServerHandler({
-              route: route.route,
-              handler: filePath,
-            })
-          })
+      try {
+        const plopfilePath = resolver.resolve('./plopfile.mjs')
+        execSync(`plop --plopfile ${plopfilePath}`, {
+          stdio: 'inherit',
+          env: {
+            ...process.env,
+            NUXT_API_PATH: apiPath,
+            NUXT_SCHEMA_PATH: schemaPath,
+          },
         })
+      }
+      catch (error) {
+        console.error('Error generating CRUD:', error)
       }
     }
 
-    console.log('[nuxt-crud]: Setting up schema.prisma watcher...')
-    generateCRUD()
-    console.log('[nuxt-crud]: CRUD generated!')
-
-    if (nuxt.options.dev) {
-      // watchSchema(schemaPath, generateCRUD)
-    }
+    nuxt.hook('ready', () => {
+      generateCRUD()
+    })
   },
 })
